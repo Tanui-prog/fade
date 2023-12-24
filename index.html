@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fading Website</title>
+    <style>
+        :root {
+            --background-color: #f06292;
+            --fade-time: 1200s; /* 20 minutes */
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--background-color);
+            opacity: 1;
+            transition: opacity var(--fade-time) ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>This content will fade away slowly.</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.querySelector('.container');
+            const fadeStartTime = 5000; // 5 seconds after the page has loaded
+            const fadeEndTime = new Date('2024-12-25T00:00:00'); // January 1, 2024, at 12:00 PM
+            const now = new Date();
+
+            const fadeDuration = fadeEndTime - (now.getTime() + fadeStartTime);
+
+            if (fadeDuration > 0) {
+                setTimeout(() => {
+                    container.style.opacity = 0;
+                }, fadeStartTime);
+
+                const steps = 100;
+                const interval = fadeDuration / steps;
+
+                let currentOpacity = 1;
+
+                const fadeInterval = setInterval(() => {
+                    currentOpacity -= 1 / steps;
+                    container.style.opacity = currentOpacity;
+
+                    if (currentOpacity <= 0) {
+                        clearInterval(fadeInterval);
+                    }
+                }, interval);
+            }
+        });
+    </script>
+</body>
+</html>
